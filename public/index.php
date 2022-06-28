@@ -122,8 +122,8 @@ usort($time_frames, function($a, $b) {
                         foreach ($tasks as $task) :
                             $checked = ($task["done"] == 0) ? "" : "checked";
                         ?>
-                            <div class="row">
-                                <div class="col-xl-6">
+                            <div class="row text-nowrap">
+                                <div class="col">
                                     <p><b><?= $task["description"] ?> - <input type="checkbox" <?= $checked ?> onclick="return false;"></b></p>
                                 </div>
                                 <div class="col">
