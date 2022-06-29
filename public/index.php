@@ -11,7 +11,7 @@ if (!isset($_SESSION["user"])) {
 $user = $_SESSION["user"];
 $time_frames = get_time_frames($user["id"]);
 
-usort($time_frames, function($a, $b) {
+usort($time_frames, function ($a, $b) {
     $date_a = new DateTime($a["start"]);
     $date_b = new DateTime($b["start"]);
     return $date_a < $date_b;
@@ -98,10 +98,10 @@ usort($time_frames, function($a, $b) {
                     <?php endif ?>
 
                     <form action="add.php" method="POST">
-                        <div class="container">
+                        <div class="container text-center">
                             <input type="hidden" id="time_frame_id" name="time_frame_id" value="<?= $time_frame["id"] ?>">
                             <div class="row">
-                                <div class="col-xl-2">
+                                <div class="col">
                                     <label for="description">Add a task</label>
                                 </div>
                                 <div class="col-xl-6">
@@ -116,32 +116,37 @@ usort($time_frames, function($a, $b) {
 
                     <hr class="my-4">
 
-                    <div class="container">
-                        <?php
-                        $tasks = get_tasks($user["id"], $time_frame["id"]);
-                        foreach ($tasks as $task) :
-                            $checked = ($task["done"] == 0) ? "" : "checked";
-                        ?>
-                            <div class="row text-nowrap">
-                                <div class="col">
-                                    <p><b><?= $task["description"] ?> - <input type="checkbox" <?= $checked ?> onclick="return false;"></b></p>
-                                </div>
-                                <div class="col">
-                                    <form action="edit.php" method="POST">
-                                        <input type="hidden" id="task_id" name="task_id" value="<?= $task["id"] ?>">
-                                        <input type="hidden" id="task_id" name="done" value="<?= ($task["done"] == 0) ? "true" : "false" ?>">
-                                        <button type="submit" class="btn btn-warning" name="task" value="task">Edit</button>
-                                    </form>
-                                </div>
-                                <div class="col">
-                                    <form action="delete.php" method="POST">
-                                        <input type="hidden" id="task_id" name="task_id" value="<?= $task["id"] ?>">
-                                        <button type="submit" class="btn btn-danger" name="task" value="task">Delete task</button>
-                                    </form>
-                                </div>
-                            </div>
-                        <?php endforeach ?>
-                    </div>
+                    <table class="table text-nowrap">
+                        <tbody>
+                            <?php
+                            $tasks = get_tasks($user["id"], $time_frame["id"]);
+                            foreach ($tasks as $task) :
+                                $checked = ($task["done"] == 0) ? "" : "checked";
+                            ?>
+                                <tr>
+                                    <th scope="row">
+                                        <p><b><?= $task["description"] ?></b></p>
+                                    </th>
+                                    <th scope="row">
+                                        <input type="checkbox" <?= $checked ?> onclick="return false;">
+                                    </th>
+                                    <th scope="row">
+                                        <form action="edit.php" method="POST">
+                                            <input type="hidden" id="task_id" name="task_id" value="<?= $task["id"] ?>">
+                                            <input type="hidden" id="task_id" name="done" value="<?= ($task["done"] == 0) ? "true" : "false" ?>">
+                                            <button type="submit" class="btn btn-warning" name="task" value="task">Edit</button>
+                                        </form>
+                                    </th>
+                                    <th scope="row">
+                                        <form action="delete.php" method="POST">
+                                            <input type="hidden" id="task_id" name="task_id" value="<?= $task["id"] ?>">
+                                            <button type="submit" class="btn btn-danger" name="task" value="task">Delete task</button>
+                                        </form>
+                                    </th>
+                                </tr>
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
 
                     <hr class="my-4">
 
